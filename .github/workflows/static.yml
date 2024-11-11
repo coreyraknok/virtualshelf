@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Prateleira de Jogos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            margin-top: 20px;
+        }
+        .buttons {
+            margin: 20px;
+        }
+        button {
+            margin: 5px;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .shelf {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            max-width: 800px;
+            margin: 20px;
+        }
+        .game-cover {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <h1>Minha Prateleira de Jogos Zerados</h1>
+
+    <div class="buttons">
+        <button onclick="switchMode()">Alternar Modo</button>
+        <button onclick="addGame()">Adicionar Jogo</button>
+    </div>
+
+    <div id="shelf" class="shelf"></div>
+
+    <script>
+        // URLs das imagens para o modo X (capa lateral) e Y (capa de frente)
+        const modeXImages = [
+            'link_para_imagem_x1.jpg',
+            'link_para_imagem_x2.jpg',
+            'link_para_imagem_x3.jpg'
+        ];
+        const modeYImages = [
+            'link_para_imagem_y1.jpg',
+            'link_para_imagem_y2.jpg',
+            'link_para_imagem_y3.jpg'
+        ];
+
+        // Estado inicial
+        let isModeX = true;
+        let images = [...modeXImages];
+
+        // Função para renderizar a prateleira com as imagens atuais
+        function renderShelf() {
+            const shelf = document.getElementById('shelf');
+            shelf.innerHTML = ''; // Limpa a prateleira
+
+            images.forEach((src) => {
+                const img = document.createElement('img');
+                img.src = src;
+                img.className = 'game-cover';
+                shelf.appendChild(img);
+            });
+        }
+
+        // Função para alternar o modo
+        function switchMode() {
+            isModeX = !isModeX;
+            images = isModeX ? [...modeXImages] : [...modeYImages];
+            renderShelf();
+        }
+
+        // Função para adicionar um novo jogo
+        function addGame() {
+            const newImageUrl = prompt("Insira o link da capa do jogo:");
+            if (newImageUrl) {
+                // Adiciona a imagem ao modo atual
+                images.push(newImageUrl);
+                
+                // Também atualiza a lista de imagens dos modos específicos
+                if (isModeX) {
+                    modeXImages.push(newImageUrl);
+                } else {
+                    modeYImages.push(newImageUrl);
+                }
+
+                renderShelf();
+            }
+        }
+
+        // Renderiza a prateleira na inicialização
+        renderShelf();
+    </script>
+</body>
+</html>
